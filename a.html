@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Learn Bridge</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(60deg, #002353,#000000, #3500e3, #000000);
+    background-size: 200% 200%;
+    animation: gradientAnimation 5s ease infinite;
+}
+
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+
+    .container {
+      display: flex;
+      width: 800px;
+      height: 400px;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .login-section {
+      width: 50%;
+      background-color: #f4f4f4;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-section h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    .login-section input {
+      width: 100%;
+      height: 40px;
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .forgot-password {
+      width: 100%;
+      text-align: right;
+      margin-bottom: 10px;
+    }
+
+    .forgot-password button {
+      background: none;
+      border: none;
+      color: blue;
+      font-size: 12px;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .forgot-password button:hover {
+      color: blue;
+    }
+
+    .login-button {
+      width: 100%;
+      height: 40px;
+      background-color: blue;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .login-button:hover {
+      background-color: darkblue;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .remember-me input {
+      margin-right: 5px;
+    }
+
+    .logo-section {
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+    }
+
+    .logo-section img {
+      max-width: 80%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="login-section">
+      <h2>LOGIN</h2>
+      <input type="text" placeholder="Username">
+      <input type="password" placeholder="Password">
+      <div class="forgot-password">
+        <button onclick="location.href='forgot-password.html'">Forgot password?</button>
+      </div>
+      <button class="login-button">LOGIN</button>
+      <div class="remember-me">
+        <input type="checkbox" id="remember">
+        <label for="remember">REMEMBER ME</label>
+      </div>
+    </div>
+    <div class="logo-section">
+      <img src="lb.jpg" alt="Learn Bridge Logo">
+    </div>
+  </div>
+</body>
+</html>
