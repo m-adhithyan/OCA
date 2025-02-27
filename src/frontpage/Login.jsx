@@ -1,25 +1,29 @@
 import React from "react";
 import './Login.css'
+import logo from "../assets/learnbridge.png";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
+
   return (
-    <div class="container">
-        <div class="login-section">
-            <h2>LOGIN</h2>
-            <input type="text" placeholder="Username"/>
-            <input type="password" placeholder="Password"/>
-                <div class="forgot-password">
-                     <button onclick="location.href='forgot-password.html'">Forgot password?</button>
-                </div>
-                <button class="login-button">LOGIN</button>
-                <div class="remember-me">
-                    <input type="checkbox" id="remember"/>
-                    <label for="remember">REMEMBER ME</label>
-                </div>
+    <div className="lp-container">
+      <div className="lp-section">
+        <h2>LOGIN</h2>
+        <input type="text" placeholder="Username" />
+        <input type="password" placeholder="Password" />
+        <div className="forgot-password">
+          <button onClick={() => navigate('/forgot-password')}>Forgot password?</button>
         </div>
-        <div class="logo-section">
-            <img src="lb.jpg" alt="Learn Bridge Logo"/>
+        <button className="lp-button" onClick={() => navigate('/search')}>LOGIN</button>
+        <div className="remember-me">
+          <input type="checkbox" id="remember" />
+          <label htmlFor="remember">REMEMBER ME</label>
         </div>
+      </div>
+      <div className="lp-logo-section">
+        <img src={logo} alt="Learn Bridge Logo" />
+      </div>
     </div>
   );
 }

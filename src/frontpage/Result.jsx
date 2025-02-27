@@ -1,96 +1,121 @@
-<!DOCTYPE html> 
-<html lang="en">
-<head>
-    <title>result page</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+import React from "react";
+import "./Result.css";
+import cd from "../assets/cd.jpg";
 
-<body>
-    <header class="header">
-        <a class="logo" href="#">LEARN BRIDGE</a>
-        <input type="text" class="search" placeholder="Search">
-        <nav class="navigation">
-                <a href="#">Home</a>
-                <a href="#">About</a>
-                <a href="#">Services</a>
-                <a href="#">Contact</a> 
-                <button class="bttn-login">Log in</button>
+function Result() {
+    
+  return (
+    <div className="result-container">
+      {/* Header */}
+      <header className="result-header">
+        <a className="result-logo" href="#">LEARN BRIDGE</a>
+        <input type="text" className="result-search" placeholder="Search" />
+        <nav className="result-navigation">
+          <a href="#">Home</a>
+          <a href="#">About</a>
+          <a href="#">Services</a>
+          <a href="#">Contact</a>
+          <button className="result-bttn-login">Log in</button>
         </nav>
-    </header>
-    <main class="main"><h1>Here is the Result</h1></main>
-<div>
-   <div class="preview">
-    <div><img class="thumbnail" src="thumbnail/benefits-of-pythons.jpg"></div>
-    <div>
-    <p><strong>Python full Tutorial</strong></p>
-    <p>price 699</p>
-    </div>
-    </div>
-    <div class="preview">
-        <div><img class="thumbnail" src="thumbnail/Learn-Python-for-Data-Science.jpg"></div>
-        <div>
-        <p><strong>Python Data Structures</strong></p>
-        <p>price 599</p>
-        </div>
-        </div>
-        <div class="preview">
-            <div><img class="thumbnail" src="thumbnail/OIP.jpg"></div>
+      </header>
+
+      {/* Main Section */}
+      <main className="result-main">
+        <div className="result-course-list">
+          {/* Course Items */}
+          <div className="result-preview">
             <div>
-            <p><strong>Python Programming</strong></p>
-            <p>price 800</p>
+              <img className="result-thumbnail" src={cd} alt="Python Full Tutorial" />
             </div>
-            </div>     
-            <div class="preview">
-                <div><img class="thumbnail" src="thumbnail/Untitled-design-2024-03-21T115307.417.png"></div>
-                <div>
-                <p><strong>Python for backend</strong></p>
-                <p>price 899</p>
-                </div>
-                </div>
-     
-</div>
+            <div>
+              <p><strong>Python Full Tutorial</strong></p>
+              <p>Price: ₹699</p>
+            </div>
+          </div>
 
+          <div className="result-preview">
+            <div>
+              <img className="result-thumbnail" src={cd} alt="Python Data Structures" />
+            </div>
+            <div>
+              <p><strong>Python Data Structures</strong></p>
+              <p>Price: ₹599</p>
+            </div>
+          </div>
 
-<div>
-    <div class="preview">
-     <div><img class="thumbnail" src="thumbnail/python-Django.png"></div>
-     <div>
-     <p><strong>Python django</strong></p>
-     <p>price 699</p>
-     </div>
-     </div>
-     <div class="preview">
-         <div><img class="thumbnail" src="thumbnail/python-flask-example.webp"></div>
-         <div>
-         <p><strong>Python Flak</strong></p>
-         <p>price 599</p>
-         </div>
-         </div>
-         <div class="preview">
-             <div><img class="thumbnail" src="thumbnail/maxresdefault.jpg"></div>
-             <div>
-             <p><strong>Python machine learning</strong></p>
-             <p>price 800</p>
-             </div>
-             </div>     
-             <div class="preview">
-                 <div><img class="thumbnail" src="thumbnail/OIP (1).jpg"></div>
-                 <div>
-                 <p><strong>Python for AI</strong></p>
-                 <p>price 899</p>
-                 </div>
-                 </div>
-      
- </div>
- <pagination class="pagination">
-     <a href="#">1</a>
-     <a href="#">2</a>
-     <a href="#">3</a>
-     <a href="#">4</a>
-     <a href="#">5</a>
-     <a href="#">Next</a>
- </pagination>
+          <div className="result-preview">
+            <div>
+              <img className="result-thumbnail" src={cd} alt="Python Programming" />
+            </div>
+            <div>
+              <p><strong>Python Programming</strong></p>
+              <p>Price: ₹800</p>
+            </div>
+          </div>
 
+          <div className="result-preview">
+            <div>
+              <img className="result-thumbnail" src={cd} alt="Python for Backend" />
+            </div>
+            <div>
+              <p><strong>Python for Backend</strong></p>
+              <p>Price: ₹899</p>
+            </div>
+          </div>
 
-</body> 
-</html>
+          <div className="result-preview">
+            <div>
+              <img className="result-thumbnail" src={cd} alt="Python Django" />
+            </div>
+            <div>
+              <p><strong>Python Django</strong></p>
+              <p>Price: ₹699</p>
+            </div>
+          </div>
+
+          <div className="result-preview">
+            <div>
+              <img className="result-thumbnail" src={cd} alt="Python Flask" />
+            </div>
+            <div>
+              <p><strong>Python Flask</strong></p>
+              <p>Price: ₹599</p>
+            </div>
+          </div>
+
+          <div className="result-preview">
+            <div>
+              <img className="result-thumbnail" src={cd} alt="Python Machine Learning" />
+            </div>
+            <div>
+              <p><strong>Python Machine Learning</strong></p>
+              <p>Price: ₹800</p>
+            </div>
+          </div>
+
+          <div className="result-preview">
+            <div>
+              <img className="result-thumbnail" src={cd} alt="Python for AI" />
+            </div>
+            <div>
+              <p><strong>Python for AI</strong></p>
+              <p>Price: ₹899</p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      {/* Pagination */}
+      <div className="result-pagination">
+        <a href="#">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">Next</a>
+      </div>
+    </div>
+  );
+}
+
+export default Result;
