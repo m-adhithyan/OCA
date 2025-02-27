@@ -1,0 +1,31 @@
+.body{
+    height: 300px ;
+}
+
+* {
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    left: 0;
+    padding: 20px 100px;
+    background: linear-gradient(to right, #8c52ff 45%, #1bdaff 100%);
+    color: #fff;
+    .login-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+
+}

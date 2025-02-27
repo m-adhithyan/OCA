@@ -1,0 +1,123 @@
+
+/* General Styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #b3b3b3;
+  }
+  
+  /* Container */
+  .container {
+    display: flex;
+    width: 700px;
+    height: 500px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 30px;
+    background-color: #ffffff;
+  }
+  
+  /* Left Section */
+  .left-section {
+    flex: 1;
+    background: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+  }
+  
+  .logo-title {
+    display: flex;
+    align-items: start;
+    gap: 10px;
+    color: rgb(255, 0, 51);
+  }
+  
+  .logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .subtext {
+    margin: 15px 0;
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .get-started {
+    color: blue;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  /* Right Section */
+  .right-section {
+    flex: 1;
+    background: red;
+    color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 30px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .input-group {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .input-group input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+  }
+  
+  .btn {
+    width: 100%;
+    padding: 10px;
+    background: rgb(255, 255, 255);
+    color: rgb(255, 0, 0);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .login-text {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  
+  .login-text a {
+    color: white;
+    text-decoration: underline;
+  }
+  
+  
