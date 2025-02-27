@@ -6,17 +6,19 @@ import cybersecurityImage from "../assets/cybersecurity.jpg";
 import graphImage from "../assets/graph.jpg";
 import pythonImage from "../assets/python.jpg";
 import webImage from "../assets/web.jpg";
+import { useNavigate } from "react-router-dom";
 
 function Page1() {
+  const navigate = useNavigate(); 
   return (
     <div className="overlay-1">
-      <div className="header">
+      <div className="ftp-header">
         <div className="logo-text">
           <h2>Learn bridge</h2>
         </div>
         <div className="button-group">
-          <button id="login-button" className="ls">Login</button>
-          <button id="signup-button" className="ls">Signup</button>
+          <button id="login-button" className="ls" onClick={() => {navigate('/login')}}>Login</button>
+          <button id="signup-button" className="ls" onClick={() => {navigate('/Signup')}} >Signup</button>
         </div>
       </div>
 

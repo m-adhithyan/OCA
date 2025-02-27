@@ -1,0 +1,148 @@
+/* Reset styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Page Overlay */
+.su-overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #b3b3b3;
+}
+
+/* Signup Container */
+.su-container {
+  display: flex;
+  width: 700px;
+  height: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+}
+
+/* Left Section */
+.su-left-section {
+  flex: 1;
+  background: white;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.su-logo-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgb(255, 0, 51);
+}
+
+.su-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.su-subtext {
+  margin: 15px 0;
+  font-size: 14px;
+  text-align: center;
+}
+
+.su-get-started {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  color: #0033cc;
+  cursor: pointer;
+}
+
+.su-get-started:hover {
+  text-decoration: underline;
+}
+
+/* Right Section */
+.su-right-section {
+  flex: 1;
+  background: #d32f2f;
+  color: white;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+/* Form Styling */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.su-input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.su-input-group input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background: white;
+  font-size: 14px;
+}
+
+/* Submit Button */
+.su-btn {
+  width: 100%;
+  padding: 10px;
+  background: white;
+  color: #d32f2f;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.su-btn:hover {
+  background: #ff4d4d;
+  color: white;
+}
+
+/* Login Text */
+.su-login-text {
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* Login Button */
+.su-login-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.su-login-btn:hover {
+  opacity: 0.8;
+}
+

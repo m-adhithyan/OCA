@@ -10,13 +10,13 @@
     overflow: hidden;
 }
 
-.header {
+.ftp-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
-    width: 96%;
-    height: 30px;
+    padding: 24px 30px;
+    width: 98%;
+    height: 40px;
     position: fixed;
     border-radius: 30px;
     top: 0;
@@ -31,22 +31,25 @@
 }
 
 .logo-text h2 {
-    color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
     font-size: 28px;
-    font-weight: bold;
+    font-weight:100;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 10px;
+
 }
 
 .button-group {
     display: flex;
     gap: 10px;
-    margin-right: 40px;
+    margin-right: 30px;
 }
 
 .ls {
     padding: 8px 15px;
     font-size: 14px;
     font-weight: bold;
-    border-radius: 5px;
+    border-radius: 30px;
     border: none;
     cursor: pointer;
     position: relative;
