@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Search.css";
 
@@ -12,6 +12,16 @@ function Search() {
     duration: "all",
   });
 
+  // Store user name from localStorage
+  const [userName, setUserName] = useState("Guest");
+
+  useEffect(() => {
+    const storedName = localStorage.getItem("userName");
+    if (storedName) {
+      setUserName(storedName);
+    }
+  }, []);
+
   const handleSearch = () => {
     navigate(`/result?query=${query}&rating=${filter.rating}&price=${filter.price}&level=${filter.level}&duration=${filter.duration}`);
   };
@@ -23,9 +33,11 @@ function Search() {
           <h1>LEARN BRIDGE</h1>
           <p>YOUR JOURNEY TO KNOWLEDGE BEGINS HERE</p>
         </div>
+
+        {/* Profile section */}
         <div className="sp-profile">
           <div className="sp-profile-icon">👤</div>
-          <span>PROFILE</span>
+          <span>{userName}</span> {/* Display user name dynamically */}
         </div>
       </header>
 
@@ -33,7 +45,7 @@ function Search() {
         <aside className="sp-filters">
           <h3>Filter Courses</h3>
           <label>Rating:
-            <select value={filter.rating} onChange={(e) => setFilter({...filter, rating: e.target.value})}>
+            <select value={filter.rating} onChange={(e) => setFilter({ ...filter, rating: e.target.value })}>
               <option value="all">All Ratings</option>
               <option value="4">4+ Stars</option>
               <option value="3">3+ Stars</option>
@@ -41,14 +53,14 @@ function Search() {
             </select>
           </label>
           <label>Price:
-            <select value={filter.price} onChange={(e) => setFilter({...filter, price: e.target.value})}>
+            <select value={filter.price} onChange={(e) => setFilter({ ...filter, price: e.target.value })}>
               <option value="all">All Prices</option>
               <option value="free">Free</option>
               <option value="paid">Paid</option>
             </select>
           </label>
           <label>Level:
-            <select value={filter.level} onChange={(e) => setFilter({...filter, level: e.target.value})}>
+            <select value={filter.level} onChange={(e) => setFilter({ ...filter, level: e.target.value })}>
               <option value="all">All Levels</option>
               <option value="beginner">Beginner</option>
               <option value="intermediate">Intermediate</option>
@@ -56,7 +68,7 @@ function Search() {
             </select>
           </label>
           <label>Duration:
-            <select value={filter.duration} onChange={(e) => setFilter({...filter, duration: e.target.value})}>
+            <select value={filter.duration} onChange={(e) => setFilter({ ...filter, duration: e.target.value })}>
               <option value="all">All Durations</option>
               <option value="short">Short (0-5 hrs)</option>
               <option value="medium">Medium (5-20 hrs)</option>
@@ -72,6 +84,7 @@ function Search() {
               placeholder="Find Your Perfect Course In Seconds"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
             />
             <button onClick={handleSearch}>Search</button>
           </div>

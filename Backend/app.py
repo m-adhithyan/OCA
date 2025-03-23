@@ -2,7 +2,9 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from pymongo import MongoClient
 import pandas as pd
-import numpy as np
+import os
+import re
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 CORS(app)
@@ -12,23 +14,31 @@ try:
     db_client = MongoClient("mongodb://localhost:27017/")
     db = db_client["user_database"]
     users_collection = db["users"]
-    print("✅ Database connected successfully!")
+    print("\u2705 Database connected successfully!")
 except Exception as e:
-    print(f"❌ Failed to connect to database: {e}")
+    print(f"\u274C Failed to connect to database: {e}")
 
-# Load CSV dataset
-COURSE_CSV_PATH = "cleaned_courses.csv"  # Ensure this file exists in the project directory
-df = pd.read_csv(COURSE_CSV_PATH)
+# Path to the courses CSV file
+COURSE_CSV_PATH = "cleaned_merged_file.csv"
+
+def load_course_data():
+    """Load course data dynamically each time it's requested."""
+    if not os.path.exists(COURSE_CSV_PATH):
+        print("⚠️ Course data file missing!")
+        return pd.DataFrame()
+    return pd.read_csv(COURSE_CSV_PATH)
 
 @app.route('/api/signup', methods=['POST'])
 def signup():
     data = request.get_json()
     if users_collection.find_one({"$or": [{"username": data['username']}, {"email": data['email']}]}):
         return jsonify({"message": "User already exists"}), 400
+    
+    hashed_password = generate_password_hash(data['password'])
     new_user = {
         "username": data['username'],
         "email": data['email'],
-        "password": data['password']
+        "password": hashed_password
     }
     users_collection.insert_one(new_user)
     return jsonify({"message": "Signup successful! Please login."}), 201
@@ -36,43 +46,54 @@ def signup():
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.get_json()
-    user = users_collection.find_one({"username": data['username'], "password": data['password']})
-    if user:
+    user = users_collection.find_one({"username": data['username']})
+    if user and check_password_hash(user['password'], data['password']):
         return jsonify({"message": f"Welcome back, {user['username']}!"})
     else:
         return jsonify({"message": "Invalid credentials!"}), 401
 
 @app.route('/api/courses', methods=['GET'])
 def get_all_courses():
-    """Fetch all courses with full details."""
-    # Convert DataFrame to a list of dictionaries, replacing NaN with None
+    df = load_course_data()
+    if df.empty:
+        return jsonify({"error": "Course data not available."}), 500
     courses = df.to_dict(orient="records")
-    cleaned_courses = [{k: (v if not pd.isnull(v) else None) for k, v in course.items()} for course in courses]
-    return jsonify(cleaned_courses)
+    return jsonify(courses)
+
+@app.route('/api/courses/random', methods=['GET'])
+def get_random_courses():
+    df = load_course_data()
+    if df.empty:
+        return jsonify({"error": "Course data not available."}), 500
+    
+    # Get random courses (you can change the number of courses as needed)
+    random_courses = df.sample(n=4)  # Fetch 4 random courses, change n to get a different number
+    courses = random_courses.to_dict(orient="records")
+    return jsonify(courses)
 
 @app.route('/api/courses/search', methods=['GET'])
 def search_courses():
-    """"Search for courses based on user input."""
-    query = request.args.get("query", "").lower()
+    query = request.args.get("query", "").lower().strip()
     if not query:
         return jsonify({"error": "Query parameter is required"}), 400
     
-    # Print query for debugging
-    print(f"🔍 Searching for: {query}")
-
-    # Filter courses
-    filtered_df = df[df['Title'].str.contains(query, na=False) |
-                      df['Description'].str.contains(query, na=False)]
+    df = load_course_data()
+    if df.empty:
+        return jsonify({"error": "Course data not available."}), 500
     
-    # Convert filtered DataFrame to a list of dictionaries, replacing NaN with None
-    cleaned_courses = [{k: (v if not pd.isnull(v) else None) for k, v in course.items()} for course in filtered_df.to_dict(orient="records")]
+    # Normalize query: remove spaces & non-alphanumeric characters
+    normalized_query = re.sub(r"\W+", "", query)  # "full stack" → "fullstack"
 
-    # Print matching results
-    print(f"✅ Found {len(cleaned_courses)} results")
-    # Print the first 5 results
-    print(cleaned_courses[:5])
+    # Normalize course titles/descriptions
+    df['Normalized_Title'] = df['Title'].str.replace(r"\W+", "", regex=True).str.lower()
+    df['Normalized_Description'] = df['Description'].str.replace(r"\W+", "", regex=True).str.lower()
 
-    return jsonify(cleaned_courses)
+    # Search in normalized columns
+    filtered_df = df[df['Normalized_Title'].str.contains(normalized_query, na=False) |
+                     df['Normalized_Description'].str.contains(normalized_query, na=False)]
+
+    courses = filtered_df.to_dict(orient="records")
+    return jsonify(courses)
 
 if __name__ == "__main__":
     print("🚀 Server running at http://localhost:5000")
