@@ -1,180 +1,94 @@
-/* Container styles applied to .sp-overlay */
-.sp-overlay {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom, #f7f5f8, #ffffff);
-    color: #333;
-  }
-  
-  /* Header */
-  .sp-header {
-    background: linear-gradient(to right, hsl(260, 81%, 37%) 45%, #1bdaff 100%);
-    color: white;
-    padding: 20px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .sp-header h1 {
-    margin: 0;
-    font-size: 24px;
-  }
-  
-  .sp-header p {
-    margin: 5px 0 0 0;
-    font-size: 10px;
-  }
-  
-  /* Profile */
-  .sp-profile {
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-  }
-  
-  .sp-profile-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 10px;
-  }
-  
-  /* Search Bar */
-  .sp-search-bar {
-    margin: 20px auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .sp-search-bar input {
-    width: 60%;
-    padding: 10px 15px;
-    font-size: 16px;
-    border: 2px solid #a020f0;
-    border-radius: 25px 0 0 25px;
-    outline: none;
-  }
-  
-  .sp-search-bar button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background: #a020f0;
-    color: white;
-    border: none;
-    border-radius: 0 25px 25px 0;
-    cursor: pointer;
-  }
-  
-  /* Sections */
-  .sp-section {
-    padding: 20px 40px;
-    font-family: "TypoGraphica", Arial, sans-serif;
-    animation: fadeIn 1s ease-in-out;
-  }
-  
-  .sp-section h2 {
-    color: #a020f0;
-    font-size: 20px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  }
-  
-  /* Grid */
-  .sp-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    margin-top: 20px;
-  }
-  
-  .sp-grid-item {
-    width: 100%;
-    padding-top: 100%; /* Square aspect ratio */
-    background: none;
-    border: 2px solid #a020f0;
-    border-radius: 15px;
-    position: relative;
-    transition: transform 0.3s ease;
-  }
-  
-  .sp-grid-item:hover {
-    background: #f5f0ff;
-    transform: scale(1.1);
-    animation: hoverScale 0.3s ease-in-out;
-  }
-  
-  /* Animations */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  @keyframes hoverScale {
-    from {
-      transform: scale(1);
-    }
-    to {
-      transform: scale(1.1);
-    }
-  }
-  
-  @keyframes appear {
-    from {
-      opacity: 0;
-      clip-path: inset(100% 100% 0 0);
-    }
-    to {
-      opacity: 1;
-      clip-path: inset(0 0 0 0);
-    }
-  }
-  
-  /* Apply the appear animation to header and search-bar */
-  .sp-header,
-  .sp-search-bar {
-    animation: appear 1s ease forwards;
-  }
-  .sp-container {
-    display: flex;
-  }
-  
-  .sp-filters {
-    width: 250px;
-    padding: 20px;
-    background: #f4f4f4;
-    border-right: 2px solid #ccc;
-  }
-  
-  .sp-filters h3 {
-    margin-bottom: 15px;
-    color: #a020f0;
-  }
-  
-  .sp-filters label {
-    display: block;
-    margin-bottom: 10px;
-    font-size: 14px;
-  }
-  
-  .sp-filters select {
-    width: 100%;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  
-  .sp-main {
-    flex: 1;
-    padding: 20px;
-  } 
+/* Full-screen overlay */
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #23074d, #cc5333);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+/* Centered header */
+.search-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Profile alignment */
+.profile {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Search Box */
+.search-container {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+  width: 50%;
+  min-width: 400px;
+}
+
+/* Search Bar */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 5px;
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  font-size: 16px;
+}
+
+.search-bar input:focus {
+  outline: none;
+}
+
+.search-btn {
+  background: #ff9800;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.search-btn:hover {
+  background: #e68900;
+}
+
+/* Filter Section */
+.filter-section {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-group select {
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+}

@@ -1,56 +1,52 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";  
+import { useLocation, useNavigate } from "react-router-dom";
 import "./Result.css";
 
 function Result() {
   const location = useLocation();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(false); 
-  const [error, setError] = useState(null); 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [sortBy, setSortBy] = useState("relevance");
 
-  // Extract and decode query parameters
+  // Extract query params
   const params = new URLSearchParams(location.search);
-  const query = decodeURIComponent(params.get("query") || ""); 
+  const query = params.get("query") || "";
+  const rating = params.get("rating") || "all";
+  const price = params.get("price") || "all";
+  const level = params.get("level") || "all";
+  const duration = params.get("duration") || "all";
+  const page = parseInt(params.get("page") || 1);
 
   useEffect(() => {
-    if (query.trim() === "") {
-      setCourses([]); 
+    if (!query.trim()) {
+      setCourses([]);
       return;
     }
 
-    setLoading(true); 
-    setError(null); 
+    setLoading(true);
+    setError(null);
 
-    fetch(`http://localhost:5000/api/courses/search?query=${encodeURIComponent(query)}`)
+    fetch(
+      `http://localhost:5000/api/courses/search?query=${encodeURIComponent(
+        query
+      )}&rating=${rating}&price=${price}&level=${level}&duration=${duration}&page=${page}&sort=${sortBy}`
+    )
       .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
+        if (!res.ok) throw new Error("Network response was not ok");
         return res.json();
       })
       .then((data) => {
         setLoading(false);
-        setCourses(data.error ? [] : data); 
+        setCourses(data.courses || []);
       })
       .catch((error) => {
         setLoading(false);
         setError("Error fetching courses. Please try again later.");
-        setCourses([]); 
-        console.error("Error fetching courses:", error);
       });
-  }, [query]);
-
-  // Handle input change and preserve spaces
-  const handleSearchChange = (e) => {
-    const newQuery = e.target.value;
-    navigate(`?query=${encodeURIComponent(newQuery)}`);
-  };
-
-  // Function to navigate to course link
-  const handleCourseClick = (url) => {
-    window.open(url, "_blank"); // Opens the course link in a new tab
-  };
+  }, [query, rating, price, level, duration, page, sortBy]);
 
   return (
     <div className="result-container">
@@ -60,36 +56,62 @@ function Result() {
           type="text"
           className="result-search"
           placeholder="Search"
-          value={query} 
-          onChange={handleSearchChange} 
+          value={query}
+          onChange={(e) => navigate(`?query=${e.target.value}`)}
         />
+        <select
+          className="result-sort"
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+        >
+          <option value="relevance">Relevance</option>
+          <option value="rating">Highest Rated</option>
+          <option value="price">Lowest Price</option>
+        </select>
       </header>
 
       <main className="result-main">
         {loading ? (
           <p>Loading...</p>
         ) : error ? (
-          <p style={{ color: "red" }}>{error}</p> 
+          <div>
+            <p style={{ color: "red" }}>{error}</p>
+            <button onClick={() => window.location.reload()}>Retry</button>
+          </div>
         ) : courses.length === 0 ? (
           <p>No results found for "{query}"</p>
         ) : (
           <div className="result-course-list">
             {courses.map((course, index) => (
-              <div 
-                className="result-preview" 
-                key={course.ID || index} 
-                onClick={() => handleCourseClick(course.URL)} // Make the div clickable
-                style={{ cursor: "pointer" }} // Show pointer cursor on hover
+              <div
+                className="result-preview"
+                key={index}
+                onClick={() => window.open(course.URL, "_blank")}
+                style={{ cursor: "pointer" }}
               >
-                <div>
-                  <p><strong>{course.Title}</strong></p>
-                  <p>Price: {course.Price || "Free"}</p>
-                  <p>Rating: {course.Rating} ⭐</p>
-                </div>
+                <p><strong>{course.Title}</strong></p>
+                <p>Price: {course.Price || "Free"}</p>
+                <p>Rating: {course.Rating} ⭐</p>
               </div>
             ))}
           </div>
         )}
+
+        {/* Pagination */}
+        <div className="pagination">
+          <button
+            disabled={currentPage === 1}
+            onClick={() => navigate(`?query=${query}&page=${currentPage - 1}`)}
+          >
+            Previous
+          </button>
+          <span>Page {currentPage}</span>
+          <button
+            onClick={() => navigate(`?query=${query}&page=${currentPage + 1}`)}
+          >
+            Next
+          </button>
+        </div>
       </main>
     </div>
   );

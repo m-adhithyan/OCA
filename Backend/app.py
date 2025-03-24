@@ -5,13 +5,16 @@ import pandas as pd
 import os
 import re
 from werkzeug.security import generate_password_hash, check_password_hash
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
 # Connect to MongoDB
 try:
-    db_client = MongoClient("mongodb://localhost:27017/")
+    db_client = MongoClient(os.getenv("MONGO_URI"))
     db = db_client["user_database"]
     users_collection = db["users"]
     print("\u2705 Database connected successfully!")
@@ -73,7 +76,11 @@ def get_random_courses():
 
 @app.route('/api/courses/search', methods=['GET'])
 def search_courses():
-    query = request.args.get("query", "").lower().strip()
+    query = request.args.get("query", "").strip()
+    page = int(request.args.get("page", 1))
+    per_page = 10  # Number of courses per page
+    sort = request.args.get("sort", "relevance")
+
     if not query:
         return jsonify({"error": "Query parameter is required"}), 400
     
@@ -82,7 +89,7 @@ def search_courses():
         return jsonify({"error": "Course data not available."}), 500
     
     # Normalize query: remove spaces & non-alphanumeric characters
-    normalized_query = re.sub(r"\W+", "", query)  # "full stack" → "fullstack"
+    normalized_query = re.sub(r"\W+", "", query.lower())
 
     # Normalize course titles/descriptions
     df['Normalized_Title'] = df['Title'].str.replace(r"\W+", "", regex=True).str.lower()
@@ -92,8 +99,18 @@ def search_courses():
     filtered_df = df[df['Normalized_Title'].str.contains(normalized_query, na=False) |
                      df['Normalized_Description'].str.contains(normalized_query, na=False)]
 
-    courses = filtered_df.to_dict(orient="records")
-    return jsonify(courses)
+    # Apply sorting
+    if sort == "rating":
+        filtered_df = filtered_df.sort_values(by="Rating", ascending=False)
+    elif sort == "price":
+        filtered_df = filtered_df.sort_values(by="Price", ascending=True)
+
+    # Apply pagination
+    start = (page - 1) * per_page
+    end = start + per_page
+    courses = filtered_df.iloc[start:end].to_dict(orient="records")
+
+    return jsonify({"courses": courses})
 
 if __name__ == "__main__":
     print("🚀 Server running at http://localhost:5000")
