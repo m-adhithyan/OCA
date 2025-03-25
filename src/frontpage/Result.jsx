@@ -85,6 +85,7 @@ function Result() {
                   <p><strong>{course.Title}</strong></p>
                   <p>Price: {course.Price || "Free"}</p>
                   <p>Rating: {course.Rating} ⭐</p>
+                  <p>Level: {course.Level} </p>
                 </div>
               </div>
             ))}
