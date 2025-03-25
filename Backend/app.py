@@ -73,27 +73,58 @@ def get_random_courses():
 
 @app.route('/api/courses/search', methods=['GET'])
 def search_courses():
+    # Get query params
     query = request.args.get("query", "").lower().strip()
-    if not query:
-        return jsonify({"error": "Query parameter is required"}), 400
-    
+    rating = request.args.get("rating")
+    price = request.args.get("price")
+    level = request.args.get("level")
+    duration = request.args.get("duration")
+    page = int(request.args.get("page", 1))
+    per_page = 10
+
+    # Load data
     df = load_course_data()
     if df.empty:
         return jsonify({"error": "Course data not available."}), 500
-    
-    # Normalize query: remove spaces & non-alphanumeric characters
-    normalized_query = re.sub(r"\W+", "", query)  # "full stack" → "fullstack"
 
-    # Normalize course titles/descriptions
-    df['Normalized_Title'] = df['Title'].str.replace(r"\W+", "", regex=True).str.lower()
-    df['Normalized_Description'] = df['Description'].str.replace(r"\W+", "", regex=True).str.lower()
+    # Convert Rating to numeric for filtering
+    df['Rating'] = pd.to_numeric(df['Rating'], errors='coerce')
 
-    # Search in normalized columns
-    filtered_df = df[df['Normalized_Title'].str.contains(normalized_query, na=False) |
-                     df['Normalized_Description'].str.contains(normalized_query, na=False)]
+    # **Partial match search** for title and description
+    if query:
+        df = df[
+            df['Title'].str.lower().str.contains(query) |
+            df['Description'].str.lower().str.contains(query)
+        ]
 
-    courses = filtered_df.to_dict(orient="records")
-    return jsonify(courses)
+    # Apply filters for rating, price, level, duration
+    if rating and rating.lower() != "all":
+        try:
+            df = df[df['Rating'] >= float(rating)]
+        except ValueError:
+            return jsonify({"error": "Invalid rating value"}), 400
+
+    if price and price.lower() != "all":
+        df = df[df['Price'].str.lower() == price.lower()]
+    if level and level.lower() != "all":
+        df = df[df['Level'].str.lower() == level.lower()]
+    if duration and duration.lower() != "all":
+        df = df[df['Duration'].str.lower() == duration.lower()]
+
+    # Pagination
+    total_results = len(df)
+    start = (page - 1) * per_page
+    end = start + per_page
+    paginated_courses = df.iloc[start:end].to_dict(orient="records")
+
+    return jsonify({
+        "total_results": total_results,
+        "page": page,
+        "per_page": per_page,
+        "courses": paginated_courses
+    })
+
+
 
 if __name__ == "__main__":
     print("🚀 Server running at http://localhost:5000")
