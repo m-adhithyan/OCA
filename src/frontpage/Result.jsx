@@ -9,15 +9,14 @@ function Result() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Extract and decode query parameters
+  // Extract query parameters
   const params = new URLSearchParams(location.search);
   const query = decodeURIComponent(params.get("query") || "")
     .toLowerCase()
     .trim();
-  const rating = params.get("rating") || "";
-  const price = params.get("price") || "";
-  const level = params.get("level") || "";
-  const duration = params.get("duration") || "";
+  const rating = params.get("rating") || "all";
+  const price = params.get("price") || "all";
+  const level = params.get("level") || "all";
   const page = params.get("page") || 1;
 
   useEffect(() => {
@@ -31,7 +30,7 @@ function Result() {
 
     const apiUrl = `http://localhost:5000/api/courses/search?query=${encodeURIComponent(
       query
-    )}&rating=${rating}&price=${price}&level=${level}&duration=${duration}&page=${page}`;
+    )}&rating=${rating}&price=${price}&level=${level}&page=${page}`;
 
     fetch(apiUrl)
       .then((res) => {
@@ -45,11 +44,9 @@ function Result() {
         if (data.error) {
           setCourses([]);
         } else {
-          // Updated filter to allow partial matches instead of exact
-          const filteredCourses = data.courses.filter(
-            (course) =>
-              course.Title.toLowerCase().includes(query) ||
-              course.Description.toLowerCase().includes(query)
+          // Filter courses based on title only (if needed)
+          const filteredCourses = data.courses.filter((course) =>
+            course.Title.toLowerCase().includes(query)
           );
           setCourses(filteredCourses);
         }
@@ -60,21 +57,26 @@ function Result() {
         setCourses([]);
         console.error("Error fetching courses:", error);
       });
-  }, [query, rating, price, level, duration, page]);
+  }, [query, rating, price, level, page]);
 
-  // Handle input change and preserve spaces
+  // Update search query in URL while preserving filters
   const handleSearchChange = (e) => {
     const newQuery = e.target.value;
-    navigate(
-      `?query=${encodeURIComponent(
-        newQuery
-      )}&rating=${rating}&price=${price}&level=${level}&duration=${duration}&page=${page}`
-    );
+    const params = new URLSearchParams(location.search);
+    params.set("query", newQuery);
+    navigate(`?${params.toString()}`);
   };
 
-  // Function to navigate to course link
+  // Update filter query parameters
+  const handleFilterChange = (filterName, value) => {
+    const params = new URLSearchParams(location.search);
+    params.set(filterName, value);
+    navigate(`?${params.toString()}`);
+  };
+
+  // Open course link in new tab
   const handleCourseClick = (url) => {
-    window.open(url, "_blank"); // Opens the course link in a new tab
+    window.open(url, "_blank");
   };
 
   return (
@@ -92,35 +94,199 @@ function Result() {
         />
       </header>
 
-      <main className="result-main">
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p style={{ color: "red" }}>{error}</p>
-        ) : courses.length === 0 ? (
-          <p>No results found for "{query}"</p>
-        ) : (
-          <div className="result-course-list">
-            {courses.map((course, index) => (
-              <div
-                className="result-preview"
-                key={course.ID || index}
-                onClick={() => handleCourseClick(course.URL)} // Make the div clickable
-                style={{ cursor: "pointer" }} // Show pointer cursor on hover
-              >
-                <div>
-                  <p>
-                    <strong>{course.Title}</strong>
-                  </p>
-                  <p>Price: {course.Price || "Free"}</p>
-                  <p>Rating: {course.Rating} ⭐</p>
-                  <p>Level: {course.Level} </p>
-                </div>
-              </div>
-            ))}
+      <div className="result-content">
+        {/* Left Sidebar: Udemy‑style Filter */}
+        <aside className="udemy-sidebar">
+          <h2 className="sidebar-title">Filter</h2>
+
+          {/* Ratings Filter */}
+          <div className="filter-section">
+            <h3 className="filter-heading">Ratings</h3>
+            <label className="filter-option">
+              <input
+                type="radio"
+                name="rating"
+                value="4.5"
+                checked={rating === "4.5"}
+                onChange={(e) =>
+                  handleFilterChange("rating", e.target.value)
+                }
+              />
+              <span className="stars">★★★★★</span>
+              <span className="and-up"> &amp; up</span>
+            </label>
+            <label className="filter-option">
+              <input
+                type="radio"
+                name="rating"
+                value="4"
+                checked={rating === "4"}
+                onChange={(e) =>
+                  handleFilterChange("rating", e.target.value)
+                }
+              />
+              <span className="stars">★★★★☆</span>
+              <span className="and-up"> &amp; up</span>
+            </label>
+            <label className="filter-option">
+              <input
+                type="radio"
+                name="rating"
+                value="3.5"
+                checked={rating === "3.5"}
+                onChange={(e) =>
+                  handleFilterChange("rating", e.target.value)
+                }
+              />
+              <span className="stars">★★★½</span>
+              <span className="and-up"> &amp; up</span>
+            </label>
+            <label className="filter-option">
+              <input
+                type="radio"
+                name="rating"
+                value="all"
+                checked={rating === "all"}
+                onChange={(e) =>
+                  handleFilterChange("rating", e.target.value)
+                }
+              />
+              <span className="stars">All Ratings</span>
+            </label>
           </div>
-        )}
-      </main>
+
+          {/* Price Filter */}
+          <div className="filter-section">
+            <h3 className="filter-heading">Price</h3>
+            <label className="filter-option">
+              <input
+                type="radio"
+                name="price"
+                value="all"
+                checked={price === "all"}
+                onChange={(e) =>
+                  handleFilterChange("price", e.target.value)
+                }
+              />
+              All
+            </label>
+            <label className="filter-option">
+              <input
+                type="radio"
+                name="price"
+                value="free"
+                checked={price === "free"}
+                onChange={(e) =>
+                  handleFilterChange("price", e.target.value)
+                }
+              />
+              Free
+            </label>
+            <label className="filter-option">
+              <input
+                type="radio"
+                name="price"
+                value="paid"
+                checked={price === "paid"}
+                onChange={(e) =>
+                  handleFilterChange("price", e.target.value)
+                }
+              />
+              Paid
+            </label>
+          </div>
+
+          {/* Level Filter */}
+          <div className="filter-section">
+            <h3 className="filter-heading">Level</h3>
+            <label className="filter-option">
+              <input
+                type="radio"
+                name="level"
+                value="all"
+                checked={level === "all"}
+                onChange={(e) =>
+                  handleFilterChange("level", e.target.value)
+                }
+              />
+              All Levels
+            </label>
+            <label className="filter-option">
+              <input
+                type="radio"
+                name="level"
+                value="beginner"
+                checked={level === "beginner"}
+                onChange={(e) =>
+                  handleFilterChange("level", e.target.value)
+                }
+              />
+              Beginner
+            </label>
+            <label className="filter-option">
+              <input
+                type="radio"
+                name="level"
+                value="intermediate"
+                checked={level === "intermediate"}
+                onChange={(e) =>
+                  handleFilterChange("level", e.target.value)
+                }
+              />
+              Intermediate
+            </label>
+            <label className="filter-option">
+              <input
+                type="radio"
+                name="level"
+                value="advanced"
+                checked={level === "advanced"}
+                onChange={(e) =>
+                  handleFilterChange("level", e.target.value)
+                }
+              />
+              Advanced
+            </label>
+          </div>
+        </aside>
+
+        {/* Right Side: Course Listings */}
+        <main className="result-main">
+          {loading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p style={{ color: "red" }}>{error}</p>
+          ) : courses.length === 0 ? (
+            <p>No results found for "{query}"</p>
+          ) : (
+            <div className="result-course-list">
+              {courses.map((course, index) => (
+                <div
+                  className="result-preview"
+                  key={course.ID || index}
+                  onClick={() => handleCourseClick(course.URL)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <div className="course-image">
+                    <img
+                      src={course.Image || "default-image.png"}
+                      alt={course.Title}
+                    />
+                  </div>
+                  <div className="course-info">
+                    <p>
+                      <strong>{course.Title}</strong>
+                    </p>
+                    <p>Price: {course.Price || "Free"}</p>
+                    <p>Rating: {course.Rating}</p>
+                    <p>Level: {course.Level}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </main>
+      </div>
     </div>
   );
 }
