@@ -21,6 +21,7 @@ function Login() {
       const data = await response.json();
 
       if (response.ok) {
+        localStorage.setItem("userName", data.name); 
         alert(data.message);
         navigate("/search");
       } else {
@@ -33,22 +34,26 @@ function Login() {
   };
 
   return (
-    <div className="login-overlay"> {/* Added login-overlay */}
+    <div className="login-overlay"> 
       <div className="lp-container">
         <div className="lp-section">
           <h2>LOGIN</h2>
           <form onSubmit={handleSubmit}>
             <input
               type="text"
+              name="username"
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              autoComplete="username"
             />
             <input
               type="password"
+              name="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
             />
             <button className="lp-button" type="submit">
               LOGIN

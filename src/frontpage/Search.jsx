@@ -26,6 +26,8 @@ function Search() {
     const storedName = localStorage.getItem("userName");
     if (storedName) {
       setUserName(storedName);
+    } else {
+      setUserName("Guest"); // Fallback if not found
     }
   }, []);
 
@@ -258,6 +260,8 @@ function Search() {
           <div className="sp-search-bar">
             <input
               type="text"
+              name="searchQuery"
+              id="searchQuery"
               placeholder="Find Your Perfect Course In Seconds"
               value={query}
               onChange={handleQueryChange}

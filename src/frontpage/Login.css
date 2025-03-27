@@ -78,6 +78,7 @@
   position: relative;
   border: 1px solid #e1eec3;
   box-sizing: border-box;
+  border-radius: 10px 10px;
 }
 
 
