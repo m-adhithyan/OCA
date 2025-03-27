@@ -113,7 +113,7 @@ def search_courses():
 
     df['Rating'] = pd.to_numeric(df['Rating'], errors='coerce')
     if query:
-        df = df[df['Title'].str.lower().str.contains(query) | df['Description'].str.lower().str.contains(query)]
+        df = df[df['Title'].str.lower().str.contains(query) ]
 
     if rating and rating.lower() != "all":
         try:
