@@ -160,34 +160,46 @@ transform: translate(-50%, -50%) scale(1);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 400px;
-    height: 50px;
-    border-radius: 25px;
-    border: 2px solid #666;
+    width: 220px;
+    height: 55px;
+    border-radius: 30px;
+    border: 2px solid #444;
     padding: 5px 15px;
     position: absolute;
     bottom: 10%;
     left: 50%;
     transform: translateX(-50%);
     cursor: pointer;
-    background-color: rgb(255, 255, 255);
-    overflow: hidden;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 0;
+    background: linear-gradient(135deg, #007bff, #00c6ff);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
 }
 
-.search-bar input {
-    flex: 1;
-    opacity: 10px;
+.search-bar button {
+    width: 100%;
+    height: 100%;
     border: none;
-    outline: none;
-    padding: 0px;
+    background: transparent;
     font-size: 18px;
-    transition: opacity 0.3s ease-in-out;
-    background-color: transparent;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease-in-out;
 }
 
-.search-bar.active input {
-    opacity: 1;
-    padding: 10px;
+.search-bar .icon {
+    font-size: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.search-bar:hover {
+    background: linear-gradient(135deg, #0056b3, #0088cc);
+}
+
+.search-bar button:hover .icon {
+    transform: translateX(5px);
 }

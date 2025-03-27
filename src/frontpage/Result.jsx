@@ -124,5 +124,44 @@ function Result() {
     </div>
   );
 }
+@app.route('/api/courses/recommended', methods=['GET'])
+def get_recommended_courses():
+    """
+    Returns recommended courses based on search query or random selection.
+    """
+    query = request.args.get("query", "").lower().strip()
+    df = load_course_data()
+    
+    if df.empty:
+        return jsonify({"error": "Course data not available."}), 500
 
+    # **Basic recommendation logic**
+    if query:
+        recommended_courses = df[
+            df['Title'].str.lower().str.contains(query) |
+            df['Description'].str.lower().str.contains(query)
+        ]
+    else:
+        recommended_courses = df  # If no query, consider all courses
+
+    # **Pick 5 random recommended courses**
+    recommended_courses = recommended_courses.sample(n=min(5, len(recommended_courses)))
+
+    return jsonify(recommended_courses.to_dict(orient="records"))
+
+@app.route('/api/courses/top-picks', methods=['GET'])
+def get_top_picks():
+    """
+    Returns top-rated courses (sorted by rating).
+    """
+    df = load_course_data()
+    
+    if df.empty:
+        return jsonify({"error": "Course data not available."}), 500
+
+    # **Convert rating to numeric and sort descending**
+    df['Rating'] = pd.to_numeric(df['Rating'], errors='coerce')
+    top_picks = df.sort_values(by='Rating', ascending=False).head(5)
+
+    return jsonify(top_picks.to_dict(orient="records"))
 export default Result;
