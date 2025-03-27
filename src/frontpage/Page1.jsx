@@ -7,6 +7,7 @@ import graphImage from "../assets/graph.jpg";
 import pythonImage from "../assets/python.jpg";
 import webImage from "../assets/web.jpg";
 import { useNavigate } from "react-router-dom";
+import { FaArrowRight } from "react-icons/fa";
 
 function Page1() {
   const navigate = useNavigate(); 
@@ -79,13 +80,14 @@ function Page1() {
         </div>
       </div>
 
-      <div className="search-bar">
-      <input 
-        type="text" 
-        placeholder="Search..." 
-        onKeyDown={(e) => {if(e.key == "Enter")  {navigate('/login')}}}
-      />
-      </div>
+      
+
+<div className="search-bar">
+  <button onClick={() => navigate('/login')}>
+    Try Now <FaArrowRight className="icon" />
+  </button>
+</div>
+
     </div>
   );
 }

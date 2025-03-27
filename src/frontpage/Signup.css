@@ -146,3 +146,22 @@ form {
   opacity: 0.8;
 }
 
+/* Input Field Styling */
+.su-input-group input {
+  width: 100%;
+  padding: 12px; /* Increased padding */
+  border: 2px solid #ffffff; /* White border */
+  border-radius: 8px; /* Rounded corners */
+  background: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
+  font-size: 16px; /* Increased font size */
+  color: #333; /* Darker text color */
+  outline: none; /* Remove default focus outline */
+  transition: all 0.3s ease-in-out;
+}
+
+/* Input Focus Effect */
+.su-input-group input:focus {
+  border-color: #ff4d4d; /* Red border on focus */
+  background: #fff; /* Solid white background */
+  box-shadow: 0px 0px 8px rgba(255, 77, 77, 0.5); /* Soft glow effect */
+}
