@@ -37,7 +37,7 @@ function Search() {
         {/* Profile section */}
         <div className="sp-profile">
           <div className="sp-profile-icon">👤</div>
-          <span>{userName}</span> {/* Display user name dynamically */}
+          <span>{userName}</span> 
         </div>
       </header>
 

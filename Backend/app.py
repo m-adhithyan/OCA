@@ -27,7 +27,7 @@ users_collection = db["users"]
 otp_collection = db["otp_verification"]
 
 # Path to the courses CSV file
-COURSE_CSV_PATH = "cleaned_merged_file.csv"
+COURSE_CSV_PATH = "updated_cleaned_merged_file.csv"
 
 def load_course_data():
     """Load course data dynamically each time it's requested."""
