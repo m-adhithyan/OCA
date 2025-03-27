@@ -1,4 +1,4 @@
-/* Reset styles */
+
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +6,7 @@
   font-family: Arial, sans-serif;
 }
 
-/* Page Overlay */
+
 .su-overlay {
   display: flex;
   justify-content: center;
@@ -15,7 +15,7 @@
   background-color: #b3b3b3;
 }
 
-/* Signup Container */
+
 .su-container {
   display: flex;
   width: 700px;
@@ -26,7 +26,7 @@
   background-color: #ffffff;
 }
 
-/* Left Section */
+
 .su-left-section {
   flex: 1;
   background: white;

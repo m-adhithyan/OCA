@@ -9,8 +9,8 @@
   background: linear-gradient(60deg, #002353, #000000, #3500e3, #000000) !important;
   background-size: 200% 200%;
   animation: gradientAnimation 5s ease infinite;
-  position: relative; /* Ensure it sits above other elements */
-  z-index: 9999; /* If necessary */
+  position: relative; 
+  z-index: 9999; 
 }
 
 

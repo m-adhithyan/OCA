@@ -140,7 +140,7 @@
     }
   }
   
-  /* Apply the appear animation to header and search-bar */
+  
   .sp-header,
   .sp-search-bar {
     animation: appear 1s ease forwards;
