@@ -145,4 +145,36 @@
   .sp-search-bar {
     animation: appear 1s ease forwards;
   }
+  .sp-container {
+    display: flex;
+  }
   
+  .sp-filters {
+    width: 250px;
+    padding: 20px;
+    background: #f4f4f4;
+    border-right: 2px solid #ccc;
+  }
+  
+  .sp-filters h3 {
+    margin-bottom: 15px;
+    color: #a020f0;
+  }
+  
+  .sp-filters label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  
+  .sp-filters select {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .sp-main {
+    flex: 1;
+    padding: 20px;
+  } 

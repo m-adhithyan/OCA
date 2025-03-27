@@ -1,119 +1,126 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./Result.css";
-import cd from "../assets/cd.jpg";
 
 function Result() {
-    
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Extract and decode query parameters
+  const params = new URLSearchParams(location.search);
+  const query = decodeURIComponent(params.get("query") || "")
+    .toLowerCase()
+    .trim();
+  const rating = params.get("rating") || "";
+  const price = params.get("price") || "";
+  const level = params.get("level") || "";
+  const duration = params.get("duration") || "";
+  const page = params.get("page") || 1;
+
+  useEffect(() => {
+    if (query === "") {
+      setCourses([]);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    const apiUrl = `http://localhost:5000/api/courses/search?query=${encodeURIComponent(
+      query
+    )}&rating=${rating}&price=${price}&level=${level}&duration=${duration}&page=${page}`;
+
+    fetch(apiUrl)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setLoading(false);
+        if (data.error) {
+          setCourses([]);
+        } else {
+          // Updated filter to allow partial matches instead of exact
+          const filteredCourses = data.courses.filter(
+            (course) =>
+              course.Title.toLowerCase().includes(query) ||
+              course.Description.toLowerCase().includes(query)
+          );
+          setCourses(filteredCourses);
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        setError("Error fetching courses. Please try again later.");
+        setCourses([]);
+        console.error("Error fetching courses:", error);
+      });
+  }, [query, rating, price, level, duration, page]);
+
+  // Handle input change and preserve spaces
+  const handleSearchChange = (e) => {
+    const newQuery = e.target.value;
+    navigate(
+      `?query=${encodeURIComponent(
+        newQuery
+      )}&rating=${rating}&price=${price}&level=${level}&duration=${duration}&page=${page}`
+    );
+  };
+
+  // Function to navigate to course link
+  const handleCourseClick = (url) => {
+    window.open(url, "_blank"); // Opens the course link in a new tab
+  };
+
   return (
     <div className="result-container">
-      {/* Header */}
       <header className="result-header">
-        <a className="result-logo" href="#">LEARN BRIDGE</a>
-        <input type="text" className="result-search" placeholder="Search" />
-        <nav className="result-navigation">
-          <a href="#">Home</a>
-          <a href="#">About</a>
-          <a href="#">Services</a>
-          <a href="#">Contact</a>
-          <button className="result-bttn-login">Log in</button>
-        </nav>
+        <a className="result-logo" href="/">
+          LEARN BRIDGE
+        </a>
+        <input
+          type="text"
+          className="result-search"
+          placeholder="Search"
+          value={query}
+          onChange={handleSearchChange}
+        />
       </header>
 
-      {/* Main Section */}
       <main className="result-main">
-        <div className="result-course-list">
-          {/* Course Items */}
-          <div className="result-preview">
-            <div>
-              <img className="result-thumbnail" src={cd} alt="Python Full Tutorial" />
-            </div>
-            <div>
-              <p><strong>Python Full Tutorial</strong></p>
-              <p>Price: ₹699</p>
-            </div>
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p style={{ color: "red" }}>{error}</p>
+        ) : courses.length === 0 ? (
+          <p>No results found for "{query}"</p>
+        ) : (
+          <div className="result-course-list">
+            {courses.map((course, index) => (
+              <div
+                className="result-preview"
+                key={course.ID || index}
+                onClick={() => handleCourseClick(course.URL)} // Make the div clickable
+                style={{ cursor: "pointer" }} // Show pointer cursor on hover
+              >
+                <div>
+                  <p>
+                    <strong>{course.Title}</strong>
+                  </p>
+                  <p>Price: {course.Price || "Free"}</p>
+                  <p>Rating: {course.Rating} ⭐</p>
+                  <p>Level: {course.Level} </p>
+                </div>
+              </div>
+            ))}
           </div>
-
-          <div className="result-preview">
-            <div>
-              <img className="result-thumbnail" src={cd} alt="Python Data Structures" />
-            </div>
-            <div>
-              <p><strong>Python Data Structures</strong></p>
-              <p>Price: ₹599</p>
-            </div>
-          </div>
-
-          <div className="result-preview">
-            <div>
-              <img className="result-thumbnail" src={cd} alt="Python Programming" />
-            </div>
-            <div>
-              <p><strong>Python Programming</strong></p>
-              <p>Price: ₹800</p>
-            </div>
-          </div>
-
-          <div className="result-preview">
-            <div>
-              <img className="result-thumbnail" src={cd} alt="Python for Backend" />
-            </div>
-            <div>
-              <p><strong>Python for Backend</strong></p>
-              <p>Price: ₹899</p>
-            </div>
-          </div>
-
-          <div className="result-preview">
-            <div>
-              <img className="result-thumbnail" src={cd} alt="Python Django" />
-            </div>
-            <div>
-              <p><strong>Python Django</strong></p>
-              <p>Price: ₹699</p>
-            </div>
-          </div>
-
-          <div className="result-preview">
-            <div>
-              <img className="result-thumbnail" src={cd} alt="Python Flask" />
-            </div>
-            <div>
-              <p><strong>Python Flask</strong></p>
-              <p>Price: ₹599</p>
-            </div>
-          </div>
-
-          <div className="result-preview">
-            <div>
-              <img className="result-thumbnail" src={cd} alt="Python Machine Learning" />
-            </div>
-            <div>
-              <p><strong>Python Machine Learning</strong></p>
-              <p>Price: ₹800</p>
-            </div>
-          </div>
-
-          <div className="result-preview">
-            <div>
-              <img className="result-thumbnail" src={cd} alt="Python for AI" />
-            </div>
-            <div>
-              <p><strong>Python for AI</strong></p>
-              <p>Price: ₹899</p>
-            </div>
-          </div>
-        </div>
+        )}
       </main>
-
-      {/* Pagination */}
-      <div className="result-pagination">
-        <a href="#">1</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
-        <a href="#">4</a>
-        <a href="#">5</a>
-        <a href="#">Next</a>
-      </div>
     </div>
   );
 }
