@@ -19,7 +19,7 @@ except Exception as e:
     print(f"\u274C Failed to connect to database: {e}")
 
 # Path to the courses CSV file
-COURSE_CSV_PATH = "cleaned_merged_file.csv"
+COURSE_CSV_PATH = "courses_fixed_merged1.csv"
 
 def load_course_data():
     """Load course data dynamically each time it's requested."""

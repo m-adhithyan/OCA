@@ -70,9 +70,9 @@ function Search() {
           <label>Duration:
             <select value={filter.duration} onChange={(e) => setFilter({ ...filter, duration: e.target.value })}>
               <option value="all">All Durations</option>
-              <option value="short">Short (0-5 hrs)</option>
-              <option value="medium">Medium (5-20 hrs)</option>
-              <option value="long">Long (20+ hrs)</option>
+              <option value="short">Short (1months-4months)</option>
+              <option value="medium">Medium (5months-9months)</option>
+              <option value="long">Long (10months-12months)</option>
             </select>
           </label>
         </aside>
