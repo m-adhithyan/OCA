@@ -24,8 +24,8 @@ function Page1() {
 
       <div className="card-container">
         <div className="card">
-          <div className="img-container" id="img1">
-            <img src={appImage} alt="App Development" />
+          <div className="img-container" id="img1" onClick={() => {navigate('/login')}} >
+            <img src={appImage} alt="App Development" onClick={() => {navigate('/login')}} />
           </div>
           <div className="text">
             <h2>App Development</h2>
@@ -33,8 +33,8 @@ function Page1() {
           </div>
         </div>
         <div className="card">
-          <div className="img-container" id="img2">
-            <img src={cloudImage} alt="Cloud Computing" />
+          <div className="img-container" id="img2"onClick={() => {navigate('/login')}}>
+            <img src={cloudImage} alt="Cloud Computing"onClick={() => {navigate('/login')}} />
           </div>
           <div className="text">
             <h2>Cloud Computing</h2>
@@ -42,8 +42,8 @@ function Page1() {
           </div>
         </div>
         <div className="card">
-          <div className="img-container" id="img3">
-           <img src={cybersecurityImage} alt="Cybersecurity" />
+          <div className="img-container" id="img3"onClick={() => {navigate('/login')}}>
+           <img src={cybersecurityImage} alt="Cybersecurity"onClick={() => {navigate('/login')}} />
           </div>
           <div className="text">
             <h2>Cybersecurity</h2>
@@ -51,8 +51,8 @@ function Page1() {
           </div>
         </div>
         <div className="card">
-          <div className="img-container" id="img4">
-           <img src={graphImage} alt="Graph Theory" />
+          <div className="img-container" id="img4"onClick={() => {navigate('/login')}}>
+           <img src={graphImage} alt="Graph Theory"onClick={() => {navigate('/login')}} />
           </div>
           <div className="text">
             <h2>Graph Theory</h2>
@@ -60,8 +60,8 @@ function Page1() {
           </div>
         </div>
         <div className="card">
-          <div className="img-container" id="img5">
-           <img src={pythonImage} alt="Python Programming" />
+          <div className="img-container" id="img5"onClick={() => {navigate('/login')}}>
+           <img src={pythonImage} alt="Python Programming"onClick={() => {navigate('/login')}} />
           </div>
           <div className="text">
             <h2>Python Programming</h2>
@@ -69,8 +69,8 @@ function Page1() {
           </div>
         </div>
         <div className="card">
-          <div className="img-container" id="img6">
-            <img src={webImage} alt="Web Development" />
+          <div className="img-container" id="img6"onClick={() => {navigate('/login')}}>
+            <img src={webImage} alt="Web Development"onClick={() => {navigate('/login')}} />
           </div>
           <div className="text">
             <h2>Web Development</h2>
@@ -80,7 +80,11 @@ function Page1() {
       </div>
 
       <div className="search-bar">
-        <input type="text" placeholder="Search..." />
+      <input 
+        type="text" 
+        placeholder="Search..." 
+        onKeyDown={(e) => {if(e.key == "Enter")  {navigate('/login')}}}
+      />
       </div>
     </div>
   );
