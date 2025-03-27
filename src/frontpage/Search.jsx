@@ -42,40 +42,44 @@ function Search() {
       </header>
 
       <div className="sp-container">
-        <aside className="sp-filters">
-          <h3>Filter Courses</h3>
-          <label>Rating:
-            <select value={filter.rating} onChange={(e) => setFilter({ ...filter, rating: e.target.value })}>
-              <option value="all">All Ratings</option>
-              <option value="4">4+ Stars</option>
-              <option value="3">3+ Stars</option>
-              <option value="2">2+ Stars</option>
-            </select>
-          </label>
-          <label>Price:
-            <select value={filter.price} onChange={(e) => setFilter({ ...filter, price: e.target.value })}>
-              <option value="all">All Prices</option>
-              <option value="free">Free</option>
-              <option value="paid">Paid</option>
-            </select>
-          </label>
-          <label>Level:
-            <select value={filter.level} onChange={(e) => setFilter({ ...filter, level: e.target.value })}>
-              <option value="all">All Levels</option>
-              <option value="beginner">Beginner</option>
-              <option value="intermediate">Intermediate</option>
-              <option value="expert">Expert</option>
-            </select>
-          </label>
-          <label>Duration:
-            <select value={filter.duration} onChange={(e) => setFilter({ ...filter, duration: e.target.value })}>
-              <option value="all">All Durations</option>
-              <option value="short">Short (0-5 hrs)</option>
-              <option value="medium">Medium (5-20 hrs)</option>
-              <option value="long">Long (20+ hrs)</option>
-            </select>
-          </label>
-        </aside>
+      <aside className="sp-filters">
+  <h3>Filter Courses</h3>
+  <label>
+    Duration:
+    <select value={filter.duration} onChange={(e) => setFilter({ ...filter, duration: e.target.value })}>
+      <option value="all">All Durations</option>
+      <option value="short">Short </option>
+      <option value="medium">Medium </option>
+      <option value="long">Long </option>
+    </select>
+  </label>
+  <label>
+    Level:
+    <select value={filter.level} onChange={(e) => setFilter({ ...filter, level: e.target.value })}>
+      <option value="all">All Levels</option>
+      <option value="beginner">Beginner</option>
+      <option value="intermediate">Intermediate</option>
+      <option value="expert">Expert</option>
+    </select>
+  </label>
+  <label>
+    Rating:
+    <select value={filter.rating} onChange={(e) => setFilter({ ...filter, rating: e.target.value })}>
+      <option value="all">All Ratings</option>
+      <option value="4">4 Stars</option>
+      <option value="3">3 Stars</option>
+      <option value="2">2 Stars</option>
+    </select>
+  </label>
+  <label>
+    Price:
+    <select value={filter.price} onChange={(e) => setFilter({ ...filter, price: e.target.value })}>
+      <option value="all">All Prices</option>
+      <option value="free">Free</option>
+      <option value="paid">Paid</option>
+    </select>
+  </label>
+</aside>
 
         <div className="sp-main">
           <div className="sp-search-bar">

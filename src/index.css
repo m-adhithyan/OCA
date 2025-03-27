@@ -3,13 +3,5 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background: linear-gradient(-45deg, #5438dc, #290371, #5438dc, #dfd8da);
   background-size: 400% 400%;
-  animation: gradientAnimation 6s ease infinite;
-}
-
-@keyframes gradientAnimation {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
 }

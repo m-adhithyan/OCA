@@ -18,6 +18,7 @@ function Signup() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError("");
   };
 
   const handleSubmit = async (e) => {
@@ -114,11 +115,20 @@ function Signup() {
       </div>
 
       {showOtpPopup && (
+        <div className="otp-overlay">
         <div className="otp-popup">
           <h3>Enter OTP sent to your email</h3>
-          <input type="text" placeholder="Enter OTP" onChange={(e) => setOtp(e.target.value)} />
-          <button onClick={handleVerifyOtp}>{loading ? "Verifying..." : "Verify OTP"}</button>
+          {error && <p className="error">{error}</p>}
+          <input
+            type="text"
+            placeholder="Enter OTP"
+            onChange={(e) => setOtp(e.target.value)}
+          />
+          <button onClick={handleVerifyOtp}>
+            {loading ? "Verifying..." : "Verify OTP"}
+          </button>
         </div>
+      </div>
       )}
     </div>
   );

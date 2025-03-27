@@ -2,7 +2,7 @@
     position: relative;
     min-height: 100vh;
     width: 100%;
-    background: linear-gradient(to bottom, #5438dc, #b24c63);
+    background: #F05053;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,12 +15,12 @@
     justify-content: space-between;
     align-items: center;
     padding: 24px 30px;
-    width: 98%;
-    height: 40px;
+    width: 95%;
+    height: 10px;
     position: fixed;
-    border-radius: 30px;
+    border-radius: 20px;
     top: 0;
-    left: 50%;
+    left: 50.5%;
     z-index: 1000;
     background-color: white;
     backdrop-filter: blur(10px);
@@ -31,11 +31,11 @@
 }
 
 .logo-text h2 {
-    color: rgb(255, 255, 255);
+    color: #e1eec3;
     font-size: 28px;
     font-weight:100;
     font-family: 'Poppins', sans-serif;
-    margin-top: 10px;
+    margin-top: 20px;
 
 }
 
@@ -56,14 +56,14 @@
     overflow: hidden;
     transition: color 0.1s ease-in-out;
     background-color: #b24c63;
-    color: black;
+    color: #e1eec3;
     z-index: 1;
 }
 
 .ls::before {
     content: "";
     position: absolute;
-    background: #2904e6;
+    background: #e1eec3;
     height: 200%;
     width: 200%;
     top: 100%;
@@ -91,13 +91,15 @@ transform: translate(-50%, -50%) scale(1);
     align-items: stretch;
     justify-content: space-between;
     width: 100vw;
-    height: 60vh;
+    height: 60vh; /* Reduced height */
     gap: 0px;
-    padding: 10px;
+    padding: 2px 5px; /* Reduced padding */
     overflow: hidden;
     position: relative;
     z-index: 1;
-    margin-top: 70px;
+    margin-top: 70px; /* Reduced margin-top */
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+    background-color: #e1eec3;
 }
 
 .card {
@@ -170,7 +172,7 @@ transform: translate(-50%, -50%) scale(1);
     left: 50%;
     transform: translateX(-50%);
     cursor: pointer;
-    background: linear-gradient(135deg, #007bff, #00c6ff);
+    background: linear-gradient(135deg, #CB356B, #BD3F32);
     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease-in-out;
 }
@@ -182,7 +184,7 @@ transform: translate(-50%, -50%) scale(1);
     background: transparent;
     font-size: 18px;
     font-weight: bold;
-    color: white;
+    color:#e1eec3;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -197,7 +199,7 @@ transform: translate(-50%, -50%) scale(1);
 }
 
 .search-bar:hover {
-    background: linear-gradient(135deg, #0056b3, #0088cc);
+    background: linear-gradient(135deg, #cc2c66, #b13123);
 }
 
 .search-bar button:hover .icon {

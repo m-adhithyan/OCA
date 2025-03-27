@@ -1,6 +1,5 @@
 import React from "react";
 import "./Login.css";
-import logo from "../assets/learnbridge.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -34,38 +33,36 @@ function Login() {
   };
 
   return (
-    <div className="lp-container">
-      <div className="lp-section">
-        <h2>LOGIN</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <div className="forgot-password">
-            <button onClick={() => navigate("/forgot-password")}>
-              Forgot password?
+    <div className="login-overlay"> {/* Added login-overlay */}
+      <div className="lp-container">
+        <div className="lp-section">
+          <h2>LOGIN</h2>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button className="lp-button" type="submit">
+              LOGIN
             </button>
-          </div>
-          <button className="lp-button" type="submit">
-            LOGIN
+          </form>
+        </div>
+
+        <div className="lp-right-section">
+          <h1>Welcome to Learn Bridge</h1>
+          <p>Don't have an account?</p>
+          <button className="signup-button" onClick={() => navigate("/signup")}>
+            Sign Up
           </button>
-          <div className="remember-me">
-            <input type="checkbox" id="remember" />
-            <label htmlFor="remember">REMEMBER ME</label>
-          </div>
-        </form>
-      </div>
-      <div className="lp-logo-section">
-        <img src={logo} alt="Learn Bridge Logo" />
+        </div>
       </div>
     </div>
   );

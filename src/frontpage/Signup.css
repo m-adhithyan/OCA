@@ -1,167 +1,183 @@
-/* Reset styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-
-/* Page Overlay */
+/* Background overlay */
 .su-overlay {
   display: flex;
+  height: 100vh;
+  width: 100vw;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #b3b3b3;
+  background: linear-gradient(45deg, #F05053, #e1eec3, #F05053);
+  background-size: 200% 200%;
+  animation: gradientMove 5s infinite linear alternate;
+  position: relative;
 }
 
-/* Signup Container */
+/* Gradient animation */
+@keyframes gradientMove {
+  0% { background-position: 20% 50%; }
+  50% { background-position: 80% 50%; }
+  100% { background-position: 20% 50%; }
+}
+
+/* Signup container */
 .su-container {
   display: flex;
   width: 700px;
-  height: 500px;
-  border-radius: 20px;
+  height: 400px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.2);
   overflow: hidden;
-  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-  background-color: #ffffff;
 }
 
-/* Left Section */
+/* Left section */
 .su-left-section {
-  flex: 1;
-  background: white;
-  padding: 40px;
+  width: 50%;
+  background:#e1eec3;
+  color:#F05053;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-}
-
-.su-logo-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: rgb(255, 0, 51);
-}
-
-.su-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  padding: 20px;
+  text-align: center;
 }
 
 .su-subtext {
-  margin: 15px 0;
-  font-size: 14px;
-  text-align: center;
-}
-
-.su-get-started {
-  background: none;
-  border: none;
   font-size: 16px;
-  font-weight: bold;
-  color: #0033cc;
-  cursor: pointer;
-}
-
-.su-get-started:hover {
-  text-decoration: underline;
-}
-
-/* Right Section */
-.su-right-section {
-  flex: 1;
-  background: #d32f2f;
-  color: white;
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-h2 {
-  font-size: 24px;
   margin-bottom: 15px;
 }
 
-/* Form Styling */
-form {
+.su-get-started {
+  background: #F05053;
+  color: #e1eec3;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.su-get-started:hover {
+  background: #e1eec3;
+  color: #F05053;
+  border-color: #F05053;
+  border-radius: 5px;
+  border: 2px solid #F05053;
+}
+
+/* Right section */
+.su-right-section {
+  background-color: #F05053;
+  width: 50%;
+  padding: 30px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  align-items: center;
 }
 
-.su-input-group {
+.su-right-section h2 {
+  color: #e1eec3;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.su-right-section form {
+  background: #F05053;
+  width: 100%;
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  align-items: center;
 }
 
-.su-input-group input {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  background: white;
+/* Input fields */
+.su-right-section input {
+  width: 80%;
+  height: 30px;
+  margin: 8px 0;
+  padding: 4px;
   font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+.su-btn{
+  margin-top: 10px;
 }
 
-/* Submit Button */
-.su-btn {
-  width: 100%;
-  padding: 10px;
-  background: white;
-  color: #d32f2f;
+/* Input hover effect */
+.su-right-section input:hover {
+ background-color: white;
+}
+.su-right-section button {
+  width: 40%;
+  height: 35px;
+  background: #e1eec3;
+  color: #F05053;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 10px;
-  font-weight: bold;
-}
-
-.su-btn:hover {
-  background: #ff4d4d;
-  color: white;
-}
-
-/* Login Text */
-.su-login-text {
-  margin-top: 10px;
   font-size: 14px;
+  transition: 0.3s;
+}
+.su-right-section button:hover{
+  background: #F05053;
+  color: #c9d4ae;
+} 
+.error {
+  color: #e1eec3;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+/* ====== OTP Popup Overlay (Blurred Background) ====== */
+.otp-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* ====== OTP Popup Box ====== */
+.otp-popup {
+  background-color: #F05053;
+  color: #fff;
+  width: 300px;
+  padding: 20px;
+  border-radius: 8px;
   text-align: center;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Login Button */
-.su-login-btn {
-  background: none;
+.otp-popup input {
+  width: 80%;
+  height: 30px;
+  margin: 8px 0;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.otp-popup button {
+  background: #e1eec3;
+  color: #F05053;
+  padding: 8px 12px;
   border: none;
-  color: white;
-  font-size: 14px;
-  font-weight: bold;
+  border-radius: 5px;
   cursor: pointer;
-  text-decoration: underline;
+  font-size: 14px;
+  transition: 0.3s;
+  margin-top: 8px;
 }
 
-.su-login-btn:hover {
-  opacity: 0.8;
-}
-
-/* Input Field Styling */
-.su-input-group input {
-  width: 100%;
-  padding: 12px; /* Increased padding */
-  border: 2px solid #ffffff; /* White border */
-  border-radius: 8px; /* Rounded corners */
-  background: rgba(255, 255, 255, 0.9); /* Slightly transparent background */
-  font-size: 16px; /* Increased font size */
-  color: #333; /* Darker text color */
-  outline: none; /* Remove default focus outline */
-  transition: all 0.3s ease-in-out;
-}
-
-/* Input Focus Effect */
-.su-input-group input:focus {
-  border-color: #ff4d4d; /* Red border on focus */
-  background: #fff; /* Solid white background */
-  box-shadow: 0px 0px 8px rgba(255, 77, 77, 0.5); /* Soft glow effect */
+.otp-popup button:hover {
+  background: #fff;
+  color: #F05053;
 }
