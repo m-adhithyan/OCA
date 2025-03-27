@@ -11,58 +11,89 @@ function Signup() {
     confirmPassword: "",
   });
 
+  const [showOtpPopup, setShowOtpPopup] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Basic validation
-    if (
-      !formData.username ||
-      !formData.email ||
-      !formData.password ||
-      !formData.confirmPassword
-    ) {
-      alert("Please fill in all fields.");
+    if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
+      setError("All fields are required.");
       return;
     }
 
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match.");
+      setError("Passwords do not match.");
       return;
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/signup", {
+      setLoading(true);
+      const response = await fetch("http://localhost:5000/api/request-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: formData.email }),
+      });
+
+      const data = await response.json();
+      setLoading(false);
+
+      if (response.ok) {
+        setShowOtpPopup(true);
+      } else {
+        setError(data.message);
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Error:", error);
+      setError("Something went wrong. Please try again.");
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    if (!otp) {
+      setError("OTP is required.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await fetch("http://localhost:5000/api/verify-signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          username: formData.username,
           email: formData.email,
+          otp,
+          username: formData.username,
           password: formData.password,
         }),
       });
 
       const data = await response.json();
+      setLoading(false);
 
       if (response.ok) {
-        alert(data.message);
+        setShowOtpPopup(false);
         navigate("/login");
       } else {
-        alert("Signup failed: " + data.message);
+        setError(data.message);
       }
     } catch (error) {
-      console.error("Error:", error);
-      alert("Something went wrong. Please try again.");
+      setLoading(false);
+      setError("Failed to verify OTP. Try again.");
     }
   };
 
   return (
     <div className="su-overlay">
       <div className="su-container">
-        {/* Left Section */}
         <div className="su-left-section">
           <p className="su-subtext">Join thousands of learners worldwide</p>
           <button className="su-get-started" onClick={() => navigate("/login")}>
@@ -70,61 +101,37 @@ function Signup() {
           </button>
         </div>
 
-        {/* Right Section */}
         <div className="su-right-section">
           <h2>Create an Account</h2>
+          {error && <p className="error">{error}</p>}
           <form onSubmit={handleSubmit}>
-            <div className="su-input-group">
-              <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                value={formData.username}
-                onChange={handleChange}
-                required
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="su-input-group">
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-              <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Confirm Password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <button type="submit" className="su-btn">
-              Sign Up
-            </button>
+            <input type="text" name="username" placeholder="Username" onChange={handleChange} required />
+            <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
+            <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
+            <input type="password" name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} required />
+            <button type="submit" className="su-btn">{loading ? "Processing..." : "Sign Up"}</button>
           </form>
-          <p className="su-login-text">
-            Already have an account?{" "}
-            <button className="su-login-btn" onClick={() => navigate("/login")}>
-              Login
-            </button>
-          </p>
         </div>
       </div>
+
+      {showOtpPopup && (
+        <div className="otp-overlay">
+        <div className="otp-popup">
+          <h3>Enter OTP sent to your email</h3>
+          {error && <p className="error">{error}</p>}
+          <input
+            type="text"
+            placeholder="Enter OTP"
+            onChange={(e) => setOtp(e.target.value)}
+          />
+          <button onClick={handleVerifyOtp}>
+            {loading ? "Verifying..." : "Verify OTP"}
+          </button>
+        </div>
+      </div>
+      )}
     </div>
   );
 }
 
 export default Signup;
-

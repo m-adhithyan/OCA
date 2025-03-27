@@ -46,7 +46,7 @@ function Page2() {
                 </div>
                 <div className="contact-item">
                     <h3>CALL @</h3>
-                    <p>+915522884445</p>
+                    <p>+917736196886</p>
                 </div>
                 <div className="contact-item">
                     <h3>EMAIL</h3>

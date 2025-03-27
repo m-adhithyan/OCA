@@ -5,42 +5,80 @@ import pandas as pd
 import os
 import re
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_mail import Mail, Message
+import random
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:5173"])
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+
+# Configure Flask-Mail for OTP email sending
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = 'simatprojectseven@gmail.com'      # Replace with your email
+app.config['MAIL_PASSWORD'] = 'yvmt dlvq dcrn afzm'           # Replace with your app password
+app.config['MAIL_DEFAULT_SENDER'] = 'your_email@gmail.com'
+mail = Mail(app)
 
 # Connect to MongoDB
-try:
-    db_client = MongoClient("mongodb://localhost:27017/")
-    db = db_client["user_database"]
-    users_collection = db["users"]
-    print("\u2705 Database connected successfully!")
-except Exception as e:
-    print(f"\u274C Failed to connect to database: {e}")
+db_client = MongoClient("mongodb://localhost:27017/")
+db = db_client["user_database"]
+users_collection = db["users"]
+otp_collection = db["otp_verification"]
 
 # Path to the courses CSV file
-COURSE_CSV_PATH = "cleaned_merged_file.csv"
+COURSE_CSV_PATH = "updated_cleaned_merged_file.csv"
 
 def load_course_data():
     """Load course data dynamically each time it's requested."""
     if not os.path.exists(COURSE_CSV_PATH):
-        print("⚠️ Course data file missing!")
         return pd.DataFrame()
     return pd.read_csv(COURSE_CSV_PATH)
 
-@app.route('/api/signup', methods=['POST'])
-def signup():
+@app.route('/api/request-otp', methods=['POST'])
+def request_otp():
     data = request.get_json()
-    if users_collection.find_one({"$or": [{"username": data['username']}, {"email": data['email']}]}):
-        return jsonify({"message": "User already exists"}), 400
+    email = data.get('email')
     
-    hashed_password = generate_password_hash(data['password'])
+    if not email:
+        return jsonify({'message': 'Email is required'}), 400
+
+    otp = str(random.randint(100000, 999999))
+    otp_collection.update_one({"email": email}, {"$set": {"otp": otp}}, upsert=True)
+
+    try:
+        msg = Message("Your OTP Code", recipients=[email])
+        msg.body = f"Your OTP code is: {otp}. It is valid for 5 minutes."
+        mail.send(msg)
+        return jsonify({"message": "OTP sent successfully!"}), 200
+    except Exception as e:
+        return jsonify({"message": "Failed to send OTP", "error": str(e)}), 500
+
+@app.route('/api/verify-signup', methods=['POST'])
+def verify_signup():
+    data = request.get_json()
+    email = data.get('email')
+    entered_otp = data.get('otp')
+    username = data.get('username')
+    password = data.get('password')
+    
+    if not (email and entered_otp and username and password):
+        return jsonify({'message': 'Missing fields'}), 400
+
+    record = otp_collection.find_one({"email": email})
+    
+    if not record or record.get('otp') != entered_otp:
+        return jsonify({"message": "Invalid OTP"}), 400
+
+    hashed_password = generate_password_hash(password)
     new_user = {
-        "username": data['username'],
-        "email": data['email'],
+        "username": username,
+        "email": email,
         "password": hashed_password
     }
     users_collection.insert_one(new_user)
+    otp_collection.delete_one({"email": email})
+    
     return jsonify({"message": "Signup successful! Please login."}), 201
 
 @app.route('/api/login', methods=['POST'])
@@ -57,23 +95,10 @@ def get_all_courses():
     df = load_course_data()
     if df.empty:
         return jsonify({"error": "Course data not available."}), 500
-    courses = df.to_dict(orient="records")
-    return jsonify(courses)
-
-@app.route('/api/courses/random', methods=['GET'])
-def get_random_courses():
-    df = load_course_data()
-    if df.empty:
-        return jsonify({"error": "Course data not available."}), 500
-    
-    # Get random courses (you can change the number of courses as needed)
-    random_courses = df.sample(n=4)  # Fetch 4 random courses, change n to get a different number
-    courses = random_courses.to_dict(orient="records")
-    return jsonify(courses)
+    return jsonify(df.to_dict(orient="records"))
 
 @app.route('/api/courses/search', methods=['GET'])
 def search_courses():
-    # Get query params
     query = request.args.get("query", "").lower().strip()
     rating = request.args.get("rating")
     price = request.args.get("price")
@@ -82,22 +107,14 @@ def search_courses():
     page = int(request.args.get("page", 1))
     per_page = 10
 
-    # Load data
     df = load_course_data()
     if df.empty:
         return jsonify({"error": "Course data not available."}), 500
 
-    # Convert Rating to numeric for filtering
     df['Rating'] = pd.to_numeric(df['Rating'], errors='coerce')
-
-    # **Partial match search** for title and description
     if query:
-        df = df[
-            df['Title'].str.lower().str.contains(query) |
-            df['Description'].str.lower().str.contains(query)
-        ]
+        df = df[df['Title'].str.lower().str.contains(query) | df['Description'].str.lower().str.contains(query)]
 
-    # Apply filters for rating, price, level, duration
     if rating and rating.lower() != "all":
         try:
             df = df[df['Rating'] >= float(rating)]
@@ -111,7 +128,6 @@ def search_courses():
     if duration and duration.lower() != "all":
         df = df[df['Duration'].str.lower() == duration.lower()]
 
-    # Pagination
     total_results = len(df)
     start = (page - 1) * per_page
     end = start + per_page
@@ -124,8 +140,5 @@ def search_courses():
         "courses": paginated_courses
     })
 
-
-
 if __name__ == "__main__":
-    print("🚀 Server running at http://localhost:5000")
     app.run(debug=True)
