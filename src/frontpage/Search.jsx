@@ -22,14 +22,14 @@ function Search() {
   const [error, setError] = useState("");
 
   // Load user name from localStorage
-  useEffect(() => {
+ {/*} useEffect(() => {
     const storedName = localStorage.getItem("userName");
     if (storedName) {
       setUserName(storedName);
     } else {
       setUserName("Guest"); // Fallback if not found
     }
-  }, []);
+  }, []);*/}
 
   // Fetch courses from your Flask endpoint whenever query or filters change
   useEffect(() => {
@@ -113,10 +113,10 @@ function Search() {
           <h1>LEARN BRIDGE</h1>
           <p>YOUR JOURNEY TO KNOWLEDGE BEGINS HERE</p>
         </div>
-        <div className="sp-profile">
+        {/*<div className="sp-profile">
           <div className="sp-profile-icon">👤</div>
           <span>{userName}</span>
-        </div>
+        </div>*/}
       </header>
 
       {/* Container */}

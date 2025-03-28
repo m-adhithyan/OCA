@@ -1,13 +1,14 @@
 /* Container and Header */
 .result-container {
     background-color: #F5E6CC; /* Cream */
-    color: #4A1421; /* Dark Velvet */
+    color: #f05053 ; /* Dark Velvet */
     font-family: Arial, sans-serif;
     min-height: 100vh;
   }
   
   .result-header {
-    background-color: #F5E6CC; /* Cream */
+   background-color: #F05053;
+  /* Cream */
     border-bottom: 2px solid #EADBC8; /* Soft Beige */
     padding: 15px 30px;
     display: flex;
@@ -18,17 +19,17 @@
   .result-logo {
     font-size: 24px;
     font-weight: bold;
-    color: #6D213C; /* Velvet */
+    color:#e1eecC; /* Velvet */
     text-decoration: none;
   }
   
   .result-search {
     width: 300px;
     padding: 8px;
-    border: 2px solid #6D213C; /* Velvet */
+    border: 2px solid #F05053; /* Velvet */
     border-radius: 5px;
     background-color: #F5E6CC; /* Cream */
-    color: #4A1421;
+    color: #F05053;
   }
   
   /* Main layout: Sidebar + Content */
@@ -45,7 +46,7 @@
   }
   
   .result-sidebar h3 {
-    color: #6D213C;
+    color: #F05053;
     margin-bottom: 15px;
   }
   
@@ -62,10 +63,10 @@
   .filter-group select {
     width: 100%;
     padding: 8px;
-    border: 2px solid #6D213C;
+    border: 2px solid #F05053;
     border-radius: 4px;
     background-color: #F5E6CC;
-    color: #4A1421;
+    color: #F05053;
   }
   
   /* Main Course Listings */
@@ -110,7 +111,7 @@
     background-color: #F5E6CC;
     border-radius: 4px;
     font-weight: bold;
-    color: #6D213C; 
+    color: #F05053; 
   }
   
   /* Right Box: Course Information */
@@ -129,11 +130,11 @@
   
   .course-info p:first-child {
     font-weight: bold;
-    color: #4A1421; /* Dark Velvet */
+    color: #F05053 ; /* Dark Velvet */
   }
   
   .course-info p:nth-child(2) {
     color: #9C3C54; /* A softer velvet for price */
     font-weight: bold;
   }
-  
+ 

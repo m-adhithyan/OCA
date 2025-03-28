@@ -267,12 +267,12 @@ function Result() {
                   onClick={() => handleCourseClick(course.URL)}
                   style={{ cursor: "pointer" }}
                 >
-                  <div className="course-image">
+                  {/*<div className="course-image">
                     <img
                       src={course.Image || "default-image.png"}
                       alt={course.Title}
                     />
-                  </div>
+                  </div>*/}
                   <div className="course-info">
                     <p>
                       <strong>{course.Title}</strong>
