@@ -76,66 +76,49 @@ for file in csv_files:
         
         # Remove rows with missing Title (course name)
         df = df[df["Title"].notnull() & (df["Title"].str.strip() != "")]
-        
-        # --- Clean each column ---
+
         # 1) CourseID: If missing or empty, generate an 8-digit random ID.
         df["CourseID"] = df["CourseID"].astype(str)
         missing_ids = df["CourseID"].isnull() | df["CourseID"].str.lower().isin(["nan", "none", "unknown", ""])
         df.loc[missing_ids, "CourseID"] = [str(np.random.randint(10000000, 99999999)) for _ in range(missing_ids.sum())]
-        
+
         # 2) Type: If missing, randomly choose "Online" or "Offline".
-        def fix_type(t):
-            if pd.isnull(t) or str(t).strip().lower() in ["nan", "none", "unknown", ""]:
-                return np.random.choice(["Online", "Offline"])
-            return t
-        df["Type"] = df["Type"].apply(fix_type)
-        
+        df["Type"] = df["Type"].apply(lambda t: np.random.choice(["Online", "Offline"]) if pd.isnull(t) or str(t).strip().lower() in ["nan", "none", "unknown", ""] else t)
+
         # 3) Level: If missing, randomly choose from Beginner, Intermediate, or Expert.
-        def fix_level(l):
-            if pd.isnull(l) or str(l).strip().lower() in ["nan", "none", "unknown", ""]:
-                return np.random.choice(["Beginner", "Intermediate", "Expert"])
-            return l
-        df["Level"] = df["Level"].apply(fix_level)
-        
-        # 4) Duration: Ensure it's in the format "<number> months". Otherwise fill missing with random.
+        df["Level"] = df["Level"].apply(lambda l: np.random.choice(["Beginner", "Intermediate", "Expert"]) if pd.isnull(l) or str(l).strip().lower() in ["nan", "none", "unknown", ""] else l)
+
+        # 4) Duration: Ensure it's in the format "<number> months".
         df["Duration"] = df["Duration"].astype(str)
-        # Mark durations that don't match the pattern as NaN
         invalid_duration = ~df["Duration"].str.match(r"^\d+\s*months?$", case=False)
         df.loc[invalid_duration, "Duration"] = np.nan
         missing_duration = df["Duration"].isnull() | df["Duration"].str.lower().isin(["nan", "none", "unknown", ""])
         df.loc[missing_duration, "Duration"] = [f"{np.random.randint(1, 13)} months" for _ in range(missing_duration.sum())]
-        
-        # 5) Price: Keep only "Free" or "Paid". If numeric or missing, choose randomly.
+
+        # 5) Price: Keep only "Free" or "Paid".
         def fix_price(p):
             try:
-                # if conversion to float works, treat it as not valid
                 float(p)
                 return np.random.choice(["Free", "Paid"])
             except:
                 pass
             p_str = str(p).strip().lower()
-            if p_str in ["nan", "none", "", "unknown"]:
-                return np.random.choice(["Free", "Paid"])
-            if p_str not in ["free", "paid"]:
-                return np.random.choice(["Free", "Paid"])
-            return p_str.capitalize()
+            return "Paid" if p_str not in ["free", "paid"] else p_str.capitalize()
         df["Price"] = df["Price"].apply(fix_price)
-        
-        # 6) Rating: Ensure it is a float in the range 2.0 to 5.0; if out-of-range or missing, assign a random value.
+
+        # 6) Rating: Ensure it's between 2.0 and 5.0.
         def fix_rating(r):
-            if pd.isnull(r):
-                return round(np.random.uniform(2, 5), 1)
             try:
                 val = float(r)
-                # Check if the value is still NaN after conversion or out of range
-                if pd.isnull(val) or (val < 2 or val > 5):
-                    return round(np.random.uniform(2, 5), 1)
-                return val
+                return round(np.random.uniform(2, 5), 1) if pd.isnull(val) or (val < 2 or val > 5) else val
             except:
                 return round(np.random.uniform(2, 5), 1)
-
         df["Rating"] = df["Rating"].apply(fix_rating)
-        
+
+        # 7) Description: If missing, add "Click here to go to the course"
+        df["Description"] = df["Description"].fillna("Click here to go to the course")
+        df.loc[df["Description"].str.strip() == "", "Description"] = "Click here to go to the course"
+
         # Append cleaned DataFrame to list
         df_list.append(df)
         print(f"✅ Loaded {len(df)} rows from {file}")

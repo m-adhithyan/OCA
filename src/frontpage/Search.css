@@ -3,7 +3,7 @@
   background-color: #F5E6CC; /* Cream background */
   min-height: 100vh;
   font-family: Arial, sans-serif;
-  color: #4A1421; /* Dark Velvet text */
+  color: #F05053; /* Dark Velvet text */
 }
 
 /* Header Section */
@@ -11,7 +11,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #6D213C;
+  background: #F05053;
   border-bottom: 2px solid #EADBC8;
   padding: 20px 30px;
 }
@@ -64,7 +64,7 @@
 
 .sidebar-title {
   font-size: 1.3rem;
-  color: #6D213C; /* Velvet */
+  color:#F05053; /* Velvet */
   margin-bottom: 15px;
 }
 
@@ -74,7 +74,7 @@
 
 .filter-heading {
   font-size: 1.1rem;
-  color: #4A1421; /* Dark Velvet */
+  color:#F05053; /* Dark Velvet */
   margin-bottom: 10px;
 }
 
@@ -83,7 +83,7 @@
   align-items: center;
   margin-bottom: 8px;
   font-size: 0.95rem;
-  color: #6D213C; /* Velvet */
+  color: #F05053; /* Velvet */
   cursor: pointer;
 }
 
@@ -99,7 +99,7 @@
 }
 
 .and-up {
-  color: #4A1421; /* Dark Velvet */
+  color:#F05053; /* Dark Velvet */
 }
 
 /* Main Content Area */
@@ -120,10 +120,10 @@
 .sp-search-bar input {
   flex: 1;
   padding: 10px;
-  border: 2px solid #6D213C; /* Velvet */
+  border: 2px solid #F05053; /* Velvet */
   border-radius: 5px;
   background-color: #F5E6CC;
-  color: #4A1421;
+  color: #F05053;
   font-size: 1rem;
 }
 
@@ -131,7 +131,7 @@
   padding: 10px 16px;
   border: none;
   border-radius: 5px;
-  background-color: #6D213C; /* Velvet */
+  background-color:#F05053; /* Velvet */
   color: #fff;
   font-weight: bold;
   font-size: 1rem;
@@ -140,7 +140,7 @@
 }
 
 .sp-search-bar button:hover {
-  background-color: #9C3C54; /* Lighter Velvet */
+  background-color:#F05053; /* Lighter Velvet */
 }
 
 /* Section Titles */
@@ -152,7 +152,7 @@
 
 .sp-section h2 {
   font-size: 1.5rem;
-  color: #6D213C;
+  color:#F05053;
   margin: 0 0 5px;
 }
 
@@ -181,18 +181,18 @@
 .sp-grid-item h3 {
   margin-top: 0;
   font-size: 1.2rem;
-  color: #4A1421;
+  color: #F05053;
 }
 
 .sp-grid-item p {
   margin: 10px 0;
   font-size: 0.95rem;
-  color: #6D213C;
+  color: #040303;
 }
 
 .sp-grid-item span {
   font-size: 0.9rem;
-  color: #9C3C54;
+  color:#F05053;
   font-weight: bold;
 }
 

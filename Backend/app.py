@@ -86,7 +86,7 @@ def login():
     data = request.get_json()
     user = users_collection.find_one({"username": data['username']})
     if user and check_password_hash(user['password'], data['password']):
-        return jsonify({"message": f"Welcome back, {user['username']}!"})
+        return jsonify({"message": f"Welcome , {user['username']}!"})
     else:
         return jsonify({"message": "Invalid credentials!"}), 401
 
